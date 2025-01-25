@@ -28,7 +28,6 @@
 #include "nvcore/Ptr.h"
 
 #include "nvtt/Compressor.h"
-#include "nvtt/cuda/CudaCompressorDXT.h"
 #include "nvtt.h"
 #include "TaskDispatcher.h"
 
@@ -60,8 +59,6 @@ namespace nvtt
 
         bool cudaSupported;
         bool cudaEnabled;
-
-        nv::AutoPtr<nv::CudaContext> cuda;
 
         TaskDispatcher * dispatcher;
         //SequentialTaskDispatcher defaultDispatcher;

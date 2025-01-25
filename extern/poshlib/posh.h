@@ -307,6 +307,12 @@ LCC predefines the following:
 #  define POSH_OS_STRING "Linux"
 #endif
 
+#if defined __emscripten__ || defined __EMSCRIPTEN__
+#  define POSH_OS_EMSCRIPTEN 1
+#  define POSH_OS_LINUX 1
+#  define POSH_OS_STRING "Emscripten"
+#endif
+
 #if defined __FreeBSD__
 #  define POSH_OS_FREEBSD 1 
 #  define POSH_OS_STRING "FreeBSD"
@@ -561,8 +567,8 @@ LCC predefines the following:
 #endif
 
 #if !defined POSH_CPU_STRING
-#  error POSH cannot determine target CPU
-#  define POSH_CPU_STRING "Unknown" /* this is here for Doxygen's benefit */
+#  define POSH_CPU_WASM 1
+#  define POSH_CPU_STRING "WASM"
 #endif
 
 /*

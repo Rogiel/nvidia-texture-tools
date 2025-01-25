@@ -1,4 +1,4 @@
-// This code is in the public domain -- Ignacio Castaño <castano@gmail.com>
+// This code is in the public domain -- Ignacio Castaï¿½o <castano@gmail.com>
 
 #include "Debug.h"
 #include "Array.inl"
@@ -675,6 +675,8 @@ namespace
         // CR0_HI stores an Instruction Pointer
         ucontext_t * ucp = (ucontext_t *)secret;
         return (void *) ucp->uc_mcontext.cr0_hi;
+# elif NV_CPU_WASM
+      return nullptr;
 #    else
 #      error "Unknown CPU"
 #    endif

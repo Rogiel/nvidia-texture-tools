@@ -39,6 +39,10 @@
 #if defined POSH_OS_LINUX
 #   define NV_OS_LINUX 1
 #   define NV_OS_UNIX 1
+#elif defined POSH_OS_EMSCRIPTEN
+#   define NV_OS_LINUX 1
+#   define NV_OS_UNIX 1
+#   define NV_OS_EMSCRIPTEN 1
 #elif defined POSH_OS_ORBIS
 #   define NV_OS_ORBIS 1
 #elif defined POSH_OS_FREEBSD
@@ -115,6 +119,8 @@
 #   define NV_CPU_AARCH64 1
 #elif defined POSH_CPU_E2K
 #   define NV_CPU_E2K 1
+#elif defined POSH_CPU_WASM
+#   define NV_CPU_WASM 1
 #else
 #   error "Unsupported CPU"
 #endif
@@ -369,7 +375,7 @@ namespace nv {
 #       error "MSVC: Platform not supported"
 #   endif
 #elif NV_CC_GNUC
-#   if NV_OS_LINUX
+#   if NV_OS_LINUX || NV_OS_EMSCRIPTEN
 #       include "DefsGnucLinux.h"
 #   elif NV_OS_DARWIN || NV_OS_FREEBSD || NV_OS_NETBSD || NV_OS_OPENBSD
 #       include "DefsGnucDarwin.h"

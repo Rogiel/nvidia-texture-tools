@@ -36,8 +36,6 @@
 #include "CompressorDX10.h"
 #include "CompressorDX11.h"
 #include "CompressorRGB.h"
-#include "cuda/CudaUtils.h"
-#include "cuda/CudaCompressorDXT.h"
 
 #include "nvimage/DirectDrawSurface.h"
 #include "nvimage/KtxFile.h"
@@ -60,13 +58,6 @@ using namespace nvtt;
 
 Compressor::Compressor() : m(*new Compressor::Private())
 {
-    // CUDA initialization.
-    m.cudaSupported = cuda::isHardwarePresent();
-    m.cudaEnabled = false;
-    m.cuda = NULL;
-
-    enableCudaAcceleration(m.cudaSupported);
-
     m.dispatcher = &m.defaultDispatcher;
 
     icbc::init_dxt1();
@@ -80,21 +71,6 @@ Compressor::~Compressor()
 
 void Compressor::enableCudaAcceleration(bool enable)
 {
-    if (m.cudaSupported)
-    {
-        m.cudaEnabled = enable;
-    }
-
-    if (m.cudaEnabled && m.cuda == NULL)
-    {
-        m.cuda = new CudaContext();
-
-        if (!m.cuda->isValid())
-        {
-            m.cudaEnabled = false;
-            m.cuda = NULL;
-        }
-    }
 }
 
 bool Compressor::isCudaAccelerationEnabled() const

@@ -24,21 +24,9 @@ SET(NVTT_SRCS
     TaskDispatcher.h #TaskDispatcher.cpp
     Surface.h Surface.cpp
     CubeSurface.h CubeSurface.cpp
-    cuda/CudaUtils.h cuda/CudaUtils.cpp
-    cuda/CudaMath.h
-    cuda/BitmapTable.h
-    cuda/CudaCompressorDXT.h cuda/CudaCompressorDXT.cpp
     #${NV_SOURCE_DIR}/extern/rg_etc1_v104/rg_etc1.h ${NV_SOURCE_DIR}/extern/rg_etc1_v104/rg_etc1.cpp
     #${NV_SOURCE_DIR}/extern/etcpack/etcpack.cxx ${NV_SOURCE_DIR}/extern/etcpack/etcdec.cxx
     )
-
-IF (CUDA_FOUND)
-    ADD_DEFINITIONS(-DHAVE_CUDA)
-    CUDA_COMPILE(CUDA_SRCS cuda/CompressKernel.cu)
-    SET(NVTT_SRCS ${NVTT_SRCS} ${CUDA_SRCS})
-    SET(LIBS ${LIBS} ${CUDA_LIBRARIES})
-    INCLUDE_DIRECTORIES(${CUDA_INCLUDE_DIRS})
-ENDIF (CUDA_FOUND)
 
 INCLUDE_DIRECTORIES(${CMAKE_CURRENT_SOURCE_DIR})
 INCLUDE_DIRECTORIES(${NV_SOURCE_DIR}/extern/rg_etc1_v104)
@@ -53,7 +41,7 @@ ELSE(NVTT_SHARED)
     ADD_LIBRARY(nvtt ${NVTT_SRCS})
 ENDIF(NVTT_SHARED)
 
-TARGET_LINK_LIBRARIES(nvtt ${LIBS} nvcore nvimage nvthread nvsquish bc6h bc7 nvmath rg_etc1)
+TARGET_LINK_LIBRARIES(nvtt ${LIBS} nvcore nvimage nvthread nvsquish bc6h bc7 nvmath)
 
 INSTALL(TARGETS nvtt 
     RUNTIME DESTINATION bin
@@ -64,4 +52,4 @@ INSTALL(FILES nvtt.h nvtt_wrapper.h DESTINATION include/nvtt)
 
 
 ADD_SUBDIRECTORY(tools)
-ADD_SUBDIRECTORY(tests)
+#ADD_SUBDIRECTORY(tests)

@@ -7,6 +7,9 @@
 
 #include "nvcore/Debug.h"
 
+#if NV_CPU_WASM
+#include <emscripten/atomic.h>
+#endif
 
 #if NV_CC_MSVC
 
@@ -88,6 +91,8 @@ namespace nv {
         uint32 ret = *ptr; // replace with ldrex?
         nvCompilerReadWriteBarrier();
         return ret;
+#elif POSH_CPU_WASM
+      return emscripten_atomic_load_u32((const void*)ptr);
 #else
 #error "Not implemented"
 #endif
@@ -117,6 +122,8 @@ namespace nv {
         nvCompilerReadWriteBarrier();
         *ptr = value; //strex?
         nvCompilerReadWriteBarrier();
+#elif POSH_CPU_WASM
+      emscripten_atomic_store_u32((void*)ptr, value);
 #else
 #error "Atomics not implemented."
 #endif
